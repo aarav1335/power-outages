@@ -52,7 +52,8 @@ Understanding how long outages last — and predicting those durations — is im
 
 To prepare the dataset for analysis and modeling, I performed several essential cleaning steps to standardize formats, remove invalid entries, and keep only relevant variables.
 
-### Columns Kept
+### Data Cleaning
+#### Columns Kept
 
 I selected outage-related, impact-related, and contextual variables such as:
 
@@ -65,7 +66,7 @@ I selected outage-related, impact-related, and contextual variables such as:
 
 These columns directly support analyzing outage duration and the factors associated with it.
 
-### Cleaning Steps Performed
+#### Cleaning Steps Performed
 
 1. Filtered to relevant columns
 I created a cleaned DataFrame containing only the selected variables.
@@ -84,8 +85,47 @@ Rows where OUTAGE.DURATION ≤ 0 were dropped since they do not represent valid 
 
 The dataset (first five rows) looks like this after cleaning: 
 <iframe 
-    src="tables/df_head.html" 
+    src="assets/df_head.html" 
     width="100%" 
-    height="350" 
-    style="border: 1px solid #ccc; border-radius: 4px;"
+    height="600" 
+    frameborder="0"
 ></iframe>
+
+### Univariate Analysis
+To better understand the structure of the dataset, I examined the distributions of key variables relevant to predicting outage duration. This included exploring both numerical and categorical columns, looking for skew, outliers, and general trends that might inform later modeling decisions.
+
+<iframe 
+    src="assets/uni.html"
+    width="100%" 
+    height="600" 
+    frameborder="0"
+></iframe>
+
+The distribution of OUTAGE.DURATION is heavily right-skewed. Most outages last under a few thousand minutes, but a small number of events extend for tens of thousands of minutes, creating extreme long-tail behavior.
+This skew suggests that transformations (e.g., log-scaling) might improve model performance later.
+
+### Bivariate Analysis
+Continuing Exploratory Data Analysis, I examined the bivariate distributions of key variables, specifically ones that are relevant to prediction of outage duration.
+
+<iframe 
+    src="assets/bi.html"
+    width="100%" 
+    height="600" 
+    frameborder="0"
+></iframe>
+
+This box plot shows how outage durations vary across different causes of power outages. It suggests that fuel supply emergencies and equipment failures tend to produce the longest outages, with median durations higher than other categories and several extreme long-duration events. In contrast, system operability disruptions, intentional attacks, and islanding outages are generally short, with low spread and fewer extreme values.
+
+Severe weather displays a wide range — while many outages are short, several storms cause very long disruptions, reflecting their unpredictable impact. Overall, this visualization suggests that infrastructure-related issues (like equipment failure and fuel supply problems) lead to more prolonged outages, whereas operational or intentional disruptions tend to be contained more quickly.
+
+### Interesting Aggregates
+Now, I aggreagate the mean duration of outages based on different combinations of climate regions and cause category.
+
+<iframe 
+    src="assets/table.html"
+    width="100%" 
+    height="600" 
+    frameborder="0"
+></iframe>
+
+Across climate regions, outage durations vary widely by cause. Fuel supply emergencies consistently lead to the longest outages, often far exceeding other categories, while equipment failures also produce long disruptions in certain regions. In contrast, causes like intentional attacks, islanding, and public appeal tend to result in much shorter outages overall. Severe weather shows moderate but variable durations depending on the region. These patterns suggest that outages linked to infrastructure or supply chain issues are significantly more time-intensive to resolve than those caused by human or operational factors.
