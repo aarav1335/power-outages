@@ -87,7 +87,7 @@ The dataset (first five rows) looks like this after cleaning:
 <iframe 
     src="assets/df_head.html" 
     width="100%" 
-    height="600" 
+    height="100%" 
     frameborder="0"
 ></iframe>
 
@@ -97,7 +97,7 @@ To better understand the structure of the dataset, I examined the distributions 
 <iframe 
     src="assets/uni.html"
     width="100%" 
-    height="600" 
+    height="100%" 
     frameborder="0"
 ></iframe>
 
@@ -110,7 +110,7 @@ Continuing Exploratory Data Analysis, I examined the bivariate distributions of 
 <iframe 
     src="assets/bi.html"
     width="100%" 
-    height="600" 
+    height="100%" 
     frameborder="0"
 ></iframe>
 
@@ -124,7 +124,7 @@ Now, I aggreagate the mean duration of outages based on different combinations o
 <iframe 
     src="assets/table.html"
     width="100%" 
-    height="600" 
+    height="100%" 
     frameborder="0"
 ></iframe>
 
