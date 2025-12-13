@@ -86,8 +86,8 @@ Rows where OUTAGE.DURATION ≤ 0 were dropped since they do not represent valid 
 The dataset (first five rows) looks like this after cleaning: 
 <iframe 
     src="assets/df_head.html" 
-    width="800" 
-    height="600" 
+    width="600" 
+    height="250" 
     frameborder="0"
 ></iframe>
 
@@ -96,8 +96,8 @@ To better understand the structure of the dataset, I examined the distributions 
 
 <iframe 
     src="assets/uni.html"
-    width="800" 
-    height="600" 
+    width="600" 
+    height="400" 
     frameborder="0"
 ></iframe>
 
@@ -109,7 +109,7 @@ Continuing Exploratory Data Analysis, I examined the bivariate distributions of 
 
 <iframe 
     src="assets/bi.html"
-    width="800" 
+    width="600" 
     height="600" 
     frameborder="0"
 ></iframe>
@@ -124,7 +124,7 @@ Now, I aggreagate the mean duration of outages based on different combinations o
 <iframe 
     src="assets/table.html"
     width="800" 
-    height="800" 
+    height="400" 
     frameborder="0"
 ></iframe>
 
@@ -146,8 +146,8 @@ The first test examined whether missingness in DEMAND.LOSS.MW depends on OUTAGE.
 
 <iframe 
     src="assets/missing1.html"
-    width="800" 
-    height="800" 
+    width="600" 
+    height="400" 
     frameborder="0"
 ></iframe>
 
@@ -159,8 +159,8 @@ Next, I tested whether missingness in DEMAND.LOSS.MW depends on YEAR, since miss
 
 <iframe 
     src="assets/missing2.html"
-    width="800" 
-    height="800" 
+    width="600" 
+    height="400" 
     frameborder="0"
 ></iframe>
 
@@ -197,13 +197,13 @@ There is strong statistical evidence that Severe weather (storm-related) outages
 
 The column I am planning to try and predict is 'OUTAGE.DURATION' (or the duration of an outage in minutes). This is a regression problem since our target variable is continuous. At the time of prediction, I would try and use the cause of the outage, location, time of year, and some other variables that indicate severity e.g, customers affected and the hour that the outage started. From these potential columns, categorical columns such as cause might be used with One-hot encoding in order to make regression possible. Predictions for outage durations are incredibly useful to power companies and governments as it allows for better communication to the affected population as well as better allocation of resources. 
 
-For evaluating my regression model, I will use R^2^ (coefficient of determination) as my primary test statistic. R^2^ is appropriate here because it measures how much of the variation in outage duration my model can explain, making it easy to compare model performance against simple baselines. Additionally, I may reference RMSE (root mean squared error) to understand the typical magnitude of prediction errors in minutes.
+For evaluating my regression model, I will use R² (coefficient of determination) as my primary test statistic. R² is appropriate here because it measures how much of the variation in outage duration my model can explain, making it easy to compare model performance against simple baselines. Additionally, I may reference RMSE (root mean squared error) to understand the typical magnitude of prediction errors in minutes.
 
 ## Baseline Model
 
 For my baseline model, I built a simple linear regression model using 4 features that would realistically be known at the start of an outage: CUSTOMERS.AFFECTED (a quantitative feature), CAUSE.CATEGORY (a nominal categorical feature), POPDEN_URBAN (the urban population density of where the outage occured), 'HOUR' (the hour of day when the outage started). The numerical feature was left unchanged, while the categorical feature was encoded using one-hot encoding so that it could be used in a regression model. All preprocessing steps and the model itself were implemented together in a single sklearn Pipeline, ensuring that the same transformations are applied consistently during both training and testing.
 
-After fitting the baseline model, the performance was evaluated using R^2^, my chosen test statistic for regression tasks. The baseline model achieved an R^2^ of 0.22 on the training set and 0.15 on the test set, indicating that the model explains very little of the variation in outage duration and does not generalize well to unseen data. This is expected for a baseline model, as it gives me a minimal benchmark rather than aiming for high performance. While the model is not “good” in a predictive sense, it is useful as a starting point for comparison when developing more complex models later.
+After fitting the baseline model, the performance was evaluated using R², my chosen test statistic for regression tasks. The baseline model achieved an R² of 0.22 on the training set and 0.15 on the test set, indicating that the model explains very little of the variation in outage duration and does not generalize well to unseen data. This is expected for a baseline model, as it gives me a minimal benchmark rather than aiming for high performance. While the model is not “good” in a predictive sense, it is useful as a starting point for comparison when developing more complex models later.
 
 ## Final Model
 
@@ -218,15 +218,15 @@ In addition to the categorical encodings used in the baseline model, I engineere
 
 ### Modeling Algorithm & Hyperparameter Search
 
-I used a RandomForestRegressor inside a single sklearn Pipeline with the preprocessing described above. Before tuning, my model performed with an R^2^ of 0.87 for training data and -0.14 for testing data (suggesting overfitting).
-To improve performance by tuning my hyperparameters, I performed a GridSearchCV over the following: n_estimators, max_depth min_samples_split, max_features. The grid search used 5-fold cross-validation and selected parameters that maximized R^2^.
+I used a RandomForestRegressor inside a single sklearn Pipeline with the preprocessing described above. Before tuning, my model performed with an R² of 0.87 for training data and -0.14 for testing data (suggesting overfitting).
+To improve performance by tuning my hyperparameters, I performed a GridSearchCV over the following: n_estimators, max_depth min_samples_split, max_features. The grid search used 5-fold cross-validation and selected parameters that maximized R².
 
 ### Final Performance
 
 After tuning, the model achieved:
 - Train R²: 0.5079
 - Test R²: 0.2269
-This performance represents a clear improvement over the baseline model and improves substantially over the untuned Random Forest, which originally yielded a negative test R^2^. Although the model still struggles to generalize strongly, which is likely because outage duration is highly noisy and influenced by unobserved factors, hyperparameter tuning successfully reduced overfitting and improved predictive accuracy on unseen data. The tuned Random Forest is therefore a more reliable predictor than the baseline.
+This performance represents a clear improvement over the baseline model and improves substantially over the untuned Random Forest, which originally yielded a negative test R². Although the model still struggles to generalize strongly, which is likely because outage duration is highly noisy and influenced by unobserved factors, hyperparameter tuning successfully reduced overfitting and improved predictive accuracy on unseen data. The tuned Random Forest is therefore a more reliable predictor than the baseline.
 
 ## Fairness Analysis
 
