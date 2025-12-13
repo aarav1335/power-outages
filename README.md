@@ -110,7 +110,7 @@ Continuing Exploratory Data Analysis, I examined the bivariate distributions of 
 <iframe 
     src="assets/bi.html"
     width="600" 
-    height="600" 
+    height="400" 
     frameborder="0"
 ></iframe>
 
@@ -124,7 +124,7 @@ Now, I aggreagate the mean duration of outages based on different combinations o
 <iframe 
     src="assets/table.html"
     width="800" 
-    height="400" 
+    height="350" 
     frameborder="0"
 ></iframe>
 
@@ -226,6 +226,7 @@ To improve performance by tuning my hyperparameters, I performed a GridSearchCV 
 After tuning, the model achieved:
 - Train R²: 0.5079
 - Test R²: 0.2269
+
 This performance represents a clear improvement over the baseline model and improves substantially over the untuned Random Forest, which originally yielded a negative test R². Although the model still struggles to generalize strongly, which is likely because outage duration is highly noisy and influenced by unobserved factors, hyperparameter tuning successfully reduced overfitting and improved predictive accuracy on unseen data. The tuned Random Forest is therefore a more reliable predictor than the baseline.
 
 ## Fairness Analysis
